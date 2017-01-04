@@ -1,0 +1,15 @@
+html
+    head
+        title Duel-Lingo
+    body
+        .inputArea
+            form(action="/duel" method="get")
+                .usernameInput
+                    label Username 1
+                    input(type="text" name="user1")
+                .usernameInput
+                    label Username 2
+                    input(type="text" name="user2")
+                button Duel!
+        .outputArea= output
+

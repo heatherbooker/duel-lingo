@@ -1,9 +1,10 @@
-function submitUsernames() {
+var fetch = require('node-fetch');
 
-  const usernameInputs = document.querySelectorAll('input');
 
-  const promises = [...usernameInputs].map(username => {
-    const name = username.value.toLowerCase();
+function submitUsernames(user1, user2) {
+
+  return promises = [...arguments].map(username => {
+    const name = username.toLowerCase();
     return getCurrentScore(name);
   });
 
@@ -54,6 +55,11 @@ function getCurrentScore(userToFind) {
         user: user.username.toLowerCase(),
         value: user.points_data.total
       };
-    
+
     });
 }
+
+module.exports = {
+  submitUsernames
+};
+

@@ -1,0 +1,25 @@
+{
+  "name": "duel-lingo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heatherbooker/duel-lingo.git"
+  },
+  "author": "Heather Booker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heatherbooker/duel-lingo/issues"
+  },
+  "homepage": "https://github.com/heatherbooker/duel-lingo#readme",
+  "dependencies": {
+    "express": "4.14.0",
+    "node-fetch": "1.6.3",
+    "pug": "2.0.0-beta6"
+  },
+  "devDependencies": {}
+}
