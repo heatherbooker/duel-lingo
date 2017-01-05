@@ -14,8 +14,14 @@ server.get('/duel', function(request, response) {
 
   const theGoods = usefulStuff.submitUsernames(request.query.user1, request.query.user2);
 
-  Promise.all(theGoods).then(goodStuff => {
-    response.render('index', {output: JSON.stringify(goodStuff)});
+  Promise.all(theGoods).then(data => {
+    const templateVars = {
+      topUsersName: data[0].user,
+      topUsersScore: data[0].value,
+      secondUsersName: data[1].user,
+      secondUsersScore: data[1].value
+    };
+    response.render('index', templateVars);
   });
 
 });

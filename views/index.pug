@@ -14,5 +14,14 @@ html
                         label Username 2
                         input(type="text" name="user2")
                     button.duel-button Duel!
-            .outputArea= output
+            .outputArea
+                .leaderboard
+                    h2 Leaderboard
+                    ol
+                        li
+                            span= topUsersName
+                            span.xp= topUsersScore && topUsersScore + ' XP' || ''
+                        li
+                            span= secondUsersName
+                            span.xp= secondUsersScore && secondUsersScore + ' XP' || ''
 
