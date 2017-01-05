@@ -2,10 +2,11 @@ var express = require('express');
 var server = express();
 var usefulStuff = require('./index.js');
 
+server.use(express.static('public'));
 server.set('view engine', 'pug');
 
 server.get('/', function(request, response) {
-  response.render('index', {output: 'WORDS'});
+  response.render('index');
 });
 
 

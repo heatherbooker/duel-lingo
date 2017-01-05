@@ -1,15 +1,18 @@
 html
     head
+        link(href="styles.css" rel="stylesheet")
         title Duel-Lingo
     body
-        .inputArea
-            form(action="/duel" method="get")
-                .usernameInput
-                    label Username 1
-                    input(type="text" name="user1")
-                .usernameInput
-                    label Username 2
-                    input(type="text" name="user2")
-                button Duel!
-        .outputArea= output
+        .content
+            h1 Duel-Lingo
+            .inputArea
+                form(action="/duel" method="get")
+                    .usernameInput
+                        label Username 1
+                        input(type="text" name="user1")
+                    .usernameInput
+                        label Username 2
+                        input(type="text" name="user2")
+                    button.duel-button Duel!
+            .outputArea= output
 
