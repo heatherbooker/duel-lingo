@@ -19,7 +19,8 @@ server.get('/duel', function(request, response) {
       topUsersName: data[0].user,
       topUsersScore: data[0].value,
       secondUsersName: data[1].user,
-      secondUsersScore: data[1].value
+      secondUsersScore: data[1].value,
+      dates: (new Date()).toDateString()
     };
     response.render('index', templateVars);
   });
