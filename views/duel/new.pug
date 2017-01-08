@@ -1,0 +1,29 @@
+extends ../layout
+
+block body
+  .content
+      h1 Duel-Lingo
+      .inputArea
+          form(action="/duel/create" method="POST")
+              .usernameInput
+                  label Username 1
+                  input(type="text" name="user1")
+              .usernameInput
+                  label Username 2
+                  input(type="text" name="user2")
+              button.duel-button Duel!
+              input(type="hidden" name="_csrf" value= _csrf)
+      .outputArea
+          .leaderboard
+              h2 Leaderboard
+              ol
+                  li
+                      span= topUsersName
+                      span.xp= topUsersScore && topUsersScore + ' XP' || ''
+                  li
+                      span= secondUsersName
+                      span.xp= secondUsersScore && secondUsersScore + ' XP' || ''
+          .dates
+              p= date && 'Start Date: ' + date
+              p= date && 'Come back in a month to see who is $5 richer and smarter!'
+
