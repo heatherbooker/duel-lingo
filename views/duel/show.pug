@@ -1,0 +1,20 @@
+extends ../layout
+
+block body
+  .content
+    h1 Duel-Lingo
+    .leaderboard
+      h2 Leaderboard
+      ol
+        li
+            span= topUserName
+            span.xp= topUserScore && topUserScore + ' XP' || ''
+        li
+            span= secondUserName
+            span.xp= secondUserScore && secondUserScore + ' XP' || ''
+    .dates
+      p= date && 'Start Date: ' + date
+      p= date && 'Come back in a month to see who is $5 richer and smarter!'
+    a(href="/duel/new")
+      button Start new duel!
+

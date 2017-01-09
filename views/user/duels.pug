@@ -1,0 +1,16 @@
+extends ../layout
+
+block body
+  .content
+    h1 Duel-Lingo
+    .duels
+      h2 Duels
+      table.duels-table
+        tr
+          th Versus
+          th Status
+        each duel in duels
+          tr
+            td= duel.versus
+            td= duel.status
+    .whatever= JSON.stringify(duels)

@@ -11,14 +11,32 @@ module.exports = {
 
   attributes: {
 
-    user1: {
-      type: 'string',
-      required: true
+    user1_id: {
+      type: 'integer'
+    },
+    user2_id: {
+      type: 'integer'
     },
 
-    user2: {
-      type: 'string',
-      required: true
+    startDate: {
+      type: 'date',
+      defaultsTo: new Date()
+    },
+
+    user1_initialScore: {
+      type: 'integer'
+    },
+    user2_initialScore: {
+      type: 'integer'
+    },
+
+    user1_finalScore: {
+      type: 'integer',
+      defaultsTo: null
+    },
+    user2_finalScore: {
+      type: 'integer',
+      defaultsTo: null
     }
 
   }

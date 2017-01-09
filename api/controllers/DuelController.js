@@ -7,31 +7,95 @@
 
 module.exports = {
 
-  'new': function(req, res) {
-
-    // res.locals.flash is available to the views, unlike req.session.flash.
-    res.locals.flash = _.clone(req.session.flash);
+  new: function(req, res) {
     res.view();
-
-    req.session.flash = {};
   },
 
   create: function(req, res, next) {
 
-    Duel.create( req.params.all(), function duelCreated(err, duel) {
+    let user1, user2;
+
+    User.create({ username: req.params.all().user1 }, (err, user) => {
       if (err) {
         console.log(err);
-        // Can store vars in req.session and they will be avail until user closes tab.
-        req.session.flash = {
-          err: err
-        };
+      }
+      user1 = user;
+    });
+    User.create({ username: req.params.all().user2 }, (err, user) => {
+      if (err) {
+        console.log(err);
+      }
+      user2 = user;
+    });
 
-        return res.redirect('/duel/new');
+    ScoresService.getCurrentScores(req.params.all())
+      .then(duelData => {
 
+        duelData.user1_id = user1.id;
+        duelData.user2_id = user2.id;
+
+        Duel.create(duelData, (err, duel) => {
+          if (err) {
+            console.log(err);
+            return res.redirect('/duel/new');
+          }
+
+          res.redirect(`/duel/show/${duel.id}`);
+        });
+      });
+  },
+
+  show: function(req, res, next) {
+
+    Duel.findOne(req.param('id'), function foundDuel(err, duel) {
+      
+      if (err) {
+        return next(err);
+      }
+      if (!duel) {
+        return next();
       }
 
-      res.json(duel);
-      req.session.flash = {};
+      let user1IsTopUser = false;
+
+      let dataForView = {
+        date: duel.startDate
+      };
+
+      if (duel.user1_initialScore > duel.user2_initialScore) {
+        user1IsTopUser = true;
+        dataForView.topUserScore = duel.user1_initialScore;
+        dataForView.secondUserScore = duel.user2_initialScore;
+      } else {
+        dataForView.topUserScore = duel.user2_initialScore;
+        dataForView.secondUserScore = duel.user1_initialScore;
+      }
+
+      User.findOne({ id: duel.user1_id }, function foundUser(err, user) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (user1IsTopUser) {
+          dataForView.topUserName = user.username;
+        } else {
+          dataForView.secondUserName = user.username;
+        }
+      });
+      User.findOne({ id: duel.user2_id }, function foundUser(err, user) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (user1IsTopUser) {
+          dataForView.secondUserName = user.username;
+        } else {
+          dataForView.topUserName = user.username;
+        }
+      });
+console.log(dataForView);
+      res.view(dataForView);
+      
     });
   }
 	
