@@ -31,11 +31,16 @@ module.exports = {
           .forEach((duel, index, updatedDuels) => {
 
             const opponent = duel.user1.id === user.id ? duel.user2 : duel.user1;
+            const endDate = duel.startDate.getDate();
+            const endMonth = duel.startDate.getMonth() + 1;
+            const endYear = duel.startDate.getYear();
 
             duelObjects.push({
               versus: opponent.username,
               // If either user has a final score, the duel is over.
-              status: duel.user2_finalScore ? 'Complete' : 'In Progress'
+              status: duel.user2_finalScore ? 'Complete' : 'In Progress',
+              start: duel.startDate,
+              end: new Date(endYear, endMonth, endDate)
             });
 
             if (index === updatedDuels.length - 1) {
