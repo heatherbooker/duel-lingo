@@ -15,13 +15,13 @@ module.exports = {
 
     let user1, user2;
 
-    User.create({ username: req.params.all().user1 }, (err, user) => {
+    User.findOrCreate({ username: req.params.all().user1 }, (err, user) => {
       if (err) {
         console.log(err);
       }
       user1 = user;
     });
-    User.create({ username: req.params.all().user2 }, (err, user) => {
+    User.findOrCreate({ username: req.params.all().user2 }, (err, user) => {
       if (err) {
         console.log(err);
       }
@@ -31,8 +31,10 @@ module.exports = {
     ScoresService.getCurrentScores(req.params.all())
       .then(duelData => {
 
-        duelData.user1_id = user1.id;
-        duelData.user2_id = user2.id;
+        while (!user1 || !user2) {}
+
+        duelData.user1 = user1.id;
+        duelData.user2 = user2.id;
 
         Duel.create(duelData, (err, duel) => {
           if (err) {
@@ -47,56 +49,36 @@ module.exports = {
 
   show: function(req, res, next) {
 
-    Duel.findOne(req.param('id'), function foundDuel(err, duel) {
+    Duel.findOne(req.param('id'))
+      .populate(['user1', 'user2'])
+      .exec(function foundDuel(err, duel) {
       
-      if (err) {
-        return next(err);
-      }
-      if (!duel) {
-        return next();
-      }
-
-      let user1IsTopUser = false;
-
-      let dataForView = {
-        date: duel.startDate
-      };
-
-      if (duel.user1_initialScore > duel.user2_initialScore) {
-        user1IsTopUser = true;
-        dataForView.topUserScore = duel.user1_initialScore;
-        dataForView.secondUserScore = duel.user2_initialScore;
-      } else {
-        dataForView.topUserScore = duel.user2_initialScore;
-        dataForView.secondUserScore = duel.user1_initialScore;
-      }
-
-      User.findOne({ id: duel.user1_id }, function foundUser(err, user) {
         if (err) {
-          console.log(err);
-          return;
+          return next(err);
         }
-        if (user1IsTopUser) {
-          dataForView.topUserName = user.username;
-        } else {
-          dataForView.secondUserName = user.username;
+        if (!duel) {
+          return next();
         }
-      });
-      User.findOne({ id: duel.user2_id }, function foundUser(err, user) {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        if (user1IsTopUser) {
-          dataForView.secondUserName = user.username;
-        } else {
-          dataForView.topUserName = user.username;
-        }
-      });
 
-      res.view(dataForView);
-      
-    });
+        let dataForView = {
+          date: duel.startDate
+        };
+
+        if (duel.user1_initialScore > duel.user2_initialScore) {
+          dataForView.topUserScore = duel.user1_initialScore;
+          dataForView.secondUserScore = duel.user2_initialScore;
+          dataForView.topUserName = duel.user1.username;
+          dataForView.secondUserName = duel.user2.username;
+        } else {
+          dataForView.topUserScore = duel.user2_initialScore;
+          dataForView.secondUserScore = duel.user1_initialScore;
+          dataForView.topUserName = duel.user2.username;
+          dataForView.secondUserName = duel.user1.username;
+        }
+
+        res.view(dataForView);
+        
+      });
   }
 	
 };
