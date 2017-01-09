@@ -13,38 +13,41 @@ module.exports = {
 
   create: function(req, res, next) {
 
-    let user1, user2;
-
-    User.findOrCreate({ username: req.params.all().user1 }, (err, user) => {
-      if (err) {
-        console.log(err);
-      }
-      user1 = user;
-    });
-    User.findOrCreate({ username: req.params.all().user2 }, (err, user) => {
-      if (err) {
-        console.log(err);
-      }
-      user2 = user;
-    });
-
-    ScoresService.getCurrentScores(req.params.all())
-      .then(duelData => {
-
-        while (!user1 || !user2) {}
-
-        duelData.user1 = user1.id;
-        duelData.user2 = user2.id;
-
-        Duel.create(duelData, (err, duel) => {
-          if (err) {
-            console.log(err);
-            return res.redirect('/duel/new');
-          }
-
-          res.redirect(`/duel/show/${duel.id}`);
-        });
+    const user1 = new Promise((resolve, reject) => {
+      User.findOrCreate({ username: req.params.all().user1 }, (err, user) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(user);
       });
+    });
+    const user2 = new Promise((resolve, reject) => {
+      User.findOrCreate({ username: req.params.all().user2 }, (err, user) => {
+        if (err) {
+          console.log(err);
+        }
+        resolve(user);
+      });
+    });
+
+    const scores = ScoresService.getCurrentScores(req.params.all());
+      
+    Promise.all([user1, user2, scores]).then(data => {
+
+      const duelData = data[2];
+
+      duelData.user1 = data[0].id;
+      duelData.user2 = data[1].id;
+
+      Duel.create(duelData, (err, duel) => {
+        if (err) {
+          console.log(err);
+          return res.redirect('/duel/new');
+        }
+
+        res.redirect(`/duel/show/${duel.id}`);
+      });
+    });
   },
 
   show: function(req, res, next) {
