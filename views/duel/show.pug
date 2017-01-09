@@ -17,10 +17,7 @@ block body
         p= date && 'Start Date: ' + date
         p= date && 'Come back in a month to see who is $5 richer and smarter!'
       .buttons
-        a(href="/duel/new")
-          button Start new duel!
-        a(href= "/user/duels/" + topUserName)
-          button= 'View duels for ' + topUserName + '!'
-        a(href= "/user/duels/" + secondUserName)
-          button= 'View duels for ' + secondUserName + '!'
+        a(href="/duel/new").btn Start new duel!
+        a(href= "/user/duels/" + topUserName).btn= 'View duels for ' + topUserName + '!'
+        a(href= "/user/duels/" + secondUserName).btn= 'View duels for ' + secondUserName + '!'
 
