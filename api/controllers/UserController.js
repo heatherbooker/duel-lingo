@@ -38,7 +38,7 @@ module.exports = {
               status: duel.user2_finalScore ? 'Complete' : 'In Progress'
             });
 
-            if (index == updatedDuels.length - 1) {
+            if (index === updatedDuels.length - 1) {
               res.view({
                 duels: duelObjects
               });
