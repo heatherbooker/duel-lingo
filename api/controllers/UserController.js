@@ -12,33 +12,25 @@ module.exports = {
     User.findOne({ 'username': req.params.id }, function userFound(err, user) {
       if (err) {
         console.log(err);
-        return;
+        return res.redirect('/404');
       }
 
-      Duel.find({ 
-        or:  [
-          { user1_id: user.id },
-          { user2_id: user.id }
-
-      ]}, function duelsFound(err, duels) {
+      Duel.find()
+      .populate(['user1', 'user2'])
+      .exec(function duelsFound(err, duels) {
 
         if (err) {
           console.log(err);
+          return res.redirect('/404');
         }
 
         let duelObjects = [];
 
-        duels.forEach((duel, index) => {
+        duels
+          .filter(duel => duel.user1.id === user.id || duel.user2.id === user.id)
+          .forEach((duel, index, updatedDuels) => {
 
-          const opponent = {};
-          opponent.id = duel.user1_id === user.id ? duel.user2_id : duel.user1_id;
-
-          User.findOne({ id: opponent.id }, function userFound(err, opponentUser) {
-            if (err) {
-              console.log(err);
-              return;
-            }
-            opponent.username = opponentUser.username;
+            const opponent = duel.user1.id === user.id ? duel.user2 : duel.user1;
 
             duelObjects.push({
               versus: opponent.username,
@@ -46,15 +38,13 @@ module.exports = {
               status: duel.user2_finalScore ? 'Complete' : 'In Progress'
             });
 
-            if (index == duels.length - 1) {
+            if (index === updatedDuels.length - 1) {
               res.view({
                 duels: duelObjects
               });
             }
 
           });
-
-        });
 
       });
     });

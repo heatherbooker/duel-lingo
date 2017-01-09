@@ -19,6 +19,8 @@ block body
       .buttons
         a(href="/duel/new")
           button Start new duel!
-        a(href="/user/duels/apple")
-          button View duels!
+        a(href= "/user/duels/" + topUserName)
+          button= 'View duels for ' + topUserName + '!'
+        a(href= "/user/duels/" + secondUserName)
+          button= 'View duels for ' + secondUserName + '!'
 

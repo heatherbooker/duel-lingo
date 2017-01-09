@@ -11,13 +11,6 @@ module.exports = {
 
   attributes: {
 
-    user1_id: {
-      type: 'integer'
-    },
-    user2_id: {
-      type: 'integer'
-    },
-
     startDate: {
       type: 'date',
       defaultsTo: new Date()
