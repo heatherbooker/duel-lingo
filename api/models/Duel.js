@@ -37,6 +37,13 @@ module.exports = {
     user2_finalScore: {
       type: 'integer',
       defaultsTo: null
+    },
+
+    user1: {
+      model: 'user'
+    },
+    user2: {
+      model: 'user'
     }
 
   }

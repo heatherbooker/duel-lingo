@@ -26,29 +26,36 @@ module.exports = {
           console.log(err);
         }
 
-        const opponent = {};
-        opponent.id = duel.user1_id === user.id ? duel.user2_id : duel.user1_id;
+        let duelObjects = [];
 
-        User.findOne({ id: opponent.id }, function userFound(err, opponentUser) {
-          if (err) {
-            console.log(err);
-            return;
-          }
-          opponent.username = opponentUser.username;
+        duels.forEach((duel, index) => {
 
-          let duelObjects = duels.map(duel => {
-            return {
+          const opponent = {};
+          opponent.id = duel.user1_id === user.id ? duel.user2_id : duel.user1_id;
+
+          User.findOne({ id: opponent.id }, function userFound(err, opponentUser) {
+            if (err) {
+              console.log(err);
+              return;
+            }
+            opponent.username = opponentUser.username;
+
+            duelObjects.push({
               versus: opponent.username,
               // If either user has a final score, the duel is over.
               status: duel.user2_finalScore ? 'Complete' : 'In Progress'
-            };
+            });
+
+            if (index == duels.length - 1) {
+              res.view({
+                duels: duelObjects
+              });
+            }
+
           });
 
         });
 
-        res.view({
-          duels: duelObjects
-        });
       });
     });
   }

@@ -3,14 +3,17 @@ extends ../layout
 block body
   .content
     h1 Duel-Lingo
-    .duels
-      h2 Duels
-      table.duels-table
-        tr
-          th Versus
-          th Status
-        each duel in duels
+    .outputArea
+      .duels.leaderboard
+        h2 Duels
+        table.duels-table
           tr
-            td= duel.versus
-            td= duel.status
-    .whatever= JSON.stringify(duels)
+            th Versus
+            th Status
+          each duel in duels
+            tr
+              td= duel.versus
+              td= duel.status
+    .buttons
+      a(href="/duel/new")
+        button Start new duel!

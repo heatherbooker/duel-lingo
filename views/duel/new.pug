@@ -13,17 +13,3 @@ block body
                   input(type="text" name="user2")
               button.duel-button Duel!
               input(type="hidden" name="_csrf" value= _csrf)
-      .outputArea
-          .leaderboard
-              h2 Leaderboard
-              ol
-                  li
-                      span= topUsersName
-                      span.xp= topUsersScore && topUsersScore + ' XP' || ''
-                  li
-                      span= secondUsersName
-                      span.xp= secondUsersScore && secondUsersScore + ' XP' || ''
-          .dates
-              p= date && 'Start Date: ' + date
-              p= date && 'Come back in a month to see who is $5 richer and smarter!'
-

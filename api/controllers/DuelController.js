@@ -93,7 +93,7 @@ module.exports = {
           dataForView.topUserName = user.username;
         }
       });
-console.log(dataForView);
+
       res.view(dataForView);
       
     });
