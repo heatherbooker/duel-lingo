@@ -46,8 +46,16 @@ input[type='text'] {
   margin: 10px;
   text-align: center;
   font-size: 18px;
-  height: 42px;
+  height: 30px;
   width: 132px;
+  text-decoration: none;
+  line-height: 30px;
+  border: none;
+}
+
+button.duel-button {
+  line-height: inherit;
+  height: 40px;
 }
 
 .duel-button:hover {
@@ -84,5 +92,6 @@ li {
 }
 
 .buttons {
-  width: 80%;
+  width: 100%;
+  margin-top: 50px;
 }

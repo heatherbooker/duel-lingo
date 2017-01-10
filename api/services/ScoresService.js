@@ -2,8 +2,9 @@ var fetch = require('node-fetch');
 
 
 function getCurrentScores(users) {
-  // var promises = [users.user1, users.user2].map(user => getCurrentScore(user));
-  var promises = [users.user1, users.user2].map(user => Promise.resolve(Math.floor(Math.random()*8000)));
+  var promises = [users.user1, users.user2].map(user => getCurrentScore(user));
+  // For development (when duo is down):
+  // var promises = [users.user1, users.user2].map(user => Promise.resolve(Math.floor(Math.random()*8000)));
   
   return Promise.all(promises).then(scores => {
     return {

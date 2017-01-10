@@ -14,9 +14,10 @@ block body
             th End
           each duel in duels
             tr
-              td= duel.versus
+              td
+                a(href= '/user/duels/' + duel.versus)= duel.versus
               td= duel.status
               td= duel.start.toDateString()
               td= duel.end.toDateString()
     .buttons
-      a(href="/duel/new").btn Start new duel!
+      a(href="/duel/new").duel-button Start new duel!
