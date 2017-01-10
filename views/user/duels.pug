@@ -6,14 +6,17 @@ block body
     .outputArea
       .duels.leaderboard
         h2 Duels
-        table.duels-table
+        table.table
           tr
             th Versus
             th Status
+            th Start
+            th End
           each duel in duels
             tr
               td= duel.versus
               td= duel.status
+              td= duel.start.toDateString()
+              td= duel.end.toDateString()
     .buttons
-      a(href="/duel/new")
-        button Start new duel!
+      a(href="/duel/new").btn Start new duel!
