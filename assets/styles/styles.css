@@ -72,10 +72,6 @@ input[type='text'] {
   width: 50%;
 }
 
-.duels-table {
-  margin: 10px;
-}
-
 li {
   display: flex;
   justify-content: space-between;
@@ -83,7 +79,7 @@ li {
 }
 
 .dates {
-  width: 80%;
+  width: 100%;
   margin: 10px;
 }
 

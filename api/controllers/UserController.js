@@ -31,26 +31,28 @@ module.exports = {
           .forEach((duel, index, updatedDuels) => {
 
             const opponent = duel.user1.id === user.id ? duel.user2 : duel.user1;
-            const endDate = duel.startDate.getDate();
-            const endMonth = duel.startDate.getMonth() + 1;
-            const endYear = duel.startDate.getYear();
+            const endDate = DuelManagerService.getEndDate(duel);
+            DuelManagerService.checkStatus(duel, user, endDate).then(status => {
 
-            duelObjects.push({
-              versus: opponent.username,
-              // If either user has a final score, the duel is over.
-              status: duel.user2_finalScore ? 'Complete' : 'In Progress',
-              start: duel.startDate,
-              end: new Date(endYear, endMonth, endDate)
-            });
+              if (['Won!', 'Lost'].includes(status.status)) {
+                DuelManagerService.createNewDuel(duel, status.finalScores);
+              }
 
-            if (index === updatedDuels.length - 1) {
-              res.view({
-                duels: duelObjects
+              duelObjects.push({
+                versus: opponent.username,
+                status: status.status,
+                start: duel.startDate,
+                end: endDate
               });
-            }
 
+              if (index === updatedDuels.length - 1) {
+                res.view({
+                  duels: duelObjects
+                });
+              }
+
+            });
           });
-
       });
     });
   }
