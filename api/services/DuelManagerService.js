@@ -52,5 +52,3 @@ module.exports = {
   getEndDate,
   createNewDuel
 };
-
-//THINK ABOUT how to organize this - what should it be called, what should each function do/return , etc
