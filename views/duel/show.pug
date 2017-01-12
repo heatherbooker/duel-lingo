@@ -6,18 +6,20 @@ block body
     .outputArea
       .leaderboard
         h2 Leaderboard
-        ol
-          li
-              span= topUserName
-              span.xp= topUserScore + ' XP'
-          li
-              span= secondUserName
-              span.xp= secondUserScore + ' XP'
+        table.table
+          tr
+            th User
+            th Improvement
+          tr
+            td
+              a(href= '/user/duels/' + topUserName)= topUserName
+            td= topUserScore + ' XP'
+          tr
+            td
+              a(href= '/user/duels/' + secondUserName)= secondUserName
+            td= secondUserScore + ' XP'
       .dates
         p= 'Start Date: ' + date.toDateString()
         p Come back in a day to see who is $5 richer and smarter!
       .buttons
-        a(href="/duel/new").btn Start new duel!
-        a(href= "/user/duels/" + topUserName).btn= 'View duels for ' + topUserName + '!'
-        a(href= "/user/duels/" + secondUserName).btn= 'View duels for ' + secondUserName + '!'
-
+        a(href="/duel/new").duel-button Start new duel!

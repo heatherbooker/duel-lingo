@@ -59,28 +59,35 @@ module.exports = {
         if (err) {
           return next(err);
         }
-        if (!duel) {
-          return next();
-        }
-
-        let dataForView = {
-          date: duel.startDate
+ 
+        const usernames = {
+          user1: duel.user1.username,
+          user2: duel.user2.username
         };
 
-        if (duel.user1_initialScore > duel.user2_initialScore) {
-          dataForView.topUserScore = duel.user1_initialScore;
-          dataForView.secondUserScore = duel.user2_initialScore;
-          dataForView.topUserName = duel.user1.username;
-          dataForView.secondUserName = duel.user2.username;
-        } else {
-          dataForView.topUserScore = duel.user2_initialScore;
-          dataForView.secondUserScore = duel.user1_initialScore;
-          dataForView.topUserName = duel.user2.username;
-          dataForView.secondUserName = duel.user1.username;
-        }
+        ScoresService.getCurrentScores(usernames).then(scores => {
 
-        res.view(dataForView);
-        
+          let dataForView = {
+            date: duel.startDate
+          };
+
+          const user1_increase = scores.user1_initialScore - duel.user1_initialScore;
+          const user2_increase = scores.user2_initialScore - duel.user2_initialScore;
+
+          if (duel.user1_increase > user2_increase) {
+            dataForView.topUserScore = user1_increase;
+            dataForView.secondUserScore = user2_increase;
+            dataForView.topUserName = duel.user1.username;
+            dataForView.secondUserName = duel.user2.username;
+          } else {
+            dataForView.topUserScore = user2_increase;
+            dataForView.secondUserScore = user1_increase;
+            dataForView.topUserName = duel.user2.username;
+            dataForView.secondUserName = duel.user1.username;
+          }
+
+          res.view(dataForView);
+        });
       });
   }
 	
