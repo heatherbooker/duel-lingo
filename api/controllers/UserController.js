@@ -39,6 +39,7 @@ module.exports = {
               }
 
               duelObjects.push({
+                id: duel.id,
                 versus: opponent.username,
                 status: status.status,
                 start: duel.startDate,

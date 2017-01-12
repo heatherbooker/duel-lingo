@@ -12,11 +12,11 @@ block body
             th Improvement
           tr
             td
-              a(href= '/user/duels/' + topUserName)= topUserName
+              a(href= '/user/duels/' + topUserName).username-link= topUserName
             td= topUserScore + ' XP'
           tr
             td
-              a(href= '/user/duels/' + secondUserName)= secondUserName
+              a(href= '/user/duels/' + secondUserName).username-link= secondUserName
             td= secondUserScore + ' XP'
       .dates
         p= 'Start Date: ' + date.toDateString()

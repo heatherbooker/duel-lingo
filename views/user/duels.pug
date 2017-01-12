@@ -12,12 +12,15 @@ block body
             th Status
             th Start
             th End
+            th  
           each duel in duels
             tr
               td
-                a(href= '/user/duels/' + duel.versus)= duel.versus
+                a(href= '/user/duels/' + duel.versus).username-link= duel.versus
               td= duel.status
               td= duel.start.toDateString()
               td= duel.end.toDateString()
+              td
+                a(href='/duel/show/' + duel.id).btn.btn-goToDuel Go to duel
     .buttons
       a(href="/duel/new").duel-button Start new duel!

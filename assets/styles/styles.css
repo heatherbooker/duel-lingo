@@ -42,12 +42,12 @@ input[type='text'] {
   background-color: #20A6e7;
   border-radius: 33px;
   color: white;
-  padding: 10px;
+  padding: 12px 20px;
   margin: 10px;
   text-align: center;
   font-size: 18px;
   height: 30px;
-  width: 132px;
+  min-width: 132px;
   text-decoration: none;
   line-height: 30px;
   border: none;
@@ -94,4 +94,13 @@ li {
 .buttons {
   width: 100%;
   margin-top: 50px;
+}
+
+.btn-goToDuel {
+  font-size: 9pt;
+  padding: 4px 8px;
+}
+
+.username-link {
+  font-size: 13pt;
 }
