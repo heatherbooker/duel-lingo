@@ -31,18 +31,18 @@ module.exports = {
           .forEach((duel, index, updatedDuels) => {
 
             const opponent = duel.user1.id === user.id ? duel.user2 : duel.user1;
-            const endDate = DuelManagerService.getEndDate(duel);
-            DuelManagerService.checkStatus(duel, user, endDate).then(status => {
 
-              if (['Won!', 'Lost'].includes(status.status)) {
-                DuelManagerService.createNewDuel(duel, status.finalScores);
+            DuelManagerService.checkStatus(duel, user, duel.endDate).then(status => {
+
+              if (status.duelJustEnded) {
+                DuelManagerService.createNewDuel(status.oldDuel);
               }
 
               duelObjects.push({
                 versus: opponent.username,
                 status: status.status,
                 start: duel.startDate,
-                end: endDate
+                end: duel.endDate
               });
 
               if (index === updatedDuels.length - 1) {

@@ -1,6 +1,28 @@
 var fetch = require('node-fetch');
 
 
+function checkWinner(duel, user, duelJustEnded) {
+
+  const user1_increase = duel.user1_finalScore - duel.user1_initialScore;
+  const user2_increase = duel.user2_finalScore - duel.user2_initialScore;
+  
+  const statusObject = {oldDuel: duel, duelJustEnded};
+
+  if (user1_increase === user2_increase) {
+    statusObject.status = 'Tied';
+  } else if (user1_increase > user2_increase) {
+    if (user.id === duel.user1.id) {
+      statusObject.status = 'Won!';
+    }
+  } else if (user.id === duel.user2.id) {
+    statusObject.status = 'Won!';
+  } else {
+    statusObject.status = 'Lost';
+  }
+
+  return statusObject;
+}
+
 function getCurrentScores(users) {
   var promises = [users.user1, users.user2].map(user => getCurrentScore(user));
   // For development (when duo is down):
@@ -52,5 +74,6 @@ function getCurrentScore(userToFind) {
 }
 
 module.exports = {
-  getCurrentScores
+  getCurrentScores,
+  checkWinner
 };

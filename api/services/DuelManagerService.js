@@ -1,43 +1,47 @@
 function checkStatus(duel, user, endDate) {
 
   if (endDate > (new Date())) {
-    return Promise.resolve('In Progress');
+    return Promise.resolve({status: 'In Progress'});
   }
 
-  return ScoresService.getCurrentScores([duel.user1, duel.user2]).then(scores => {
+  if (duel.user1_finalScore !== null) {
+    return Promise.resolve(ScoresService.checkWinner(duel, user));
+  }
+
+  const usernames = {
+    user1: duel.user1.username,
+    user2: duel.user2.username
+  };
+
+  return ScoresService.getCurrentScores(usernames).then(scores => {
     return new Promise((resolve, reject) => {
+
       Duel.update({id: duel.id}, {
         user1_finalScore: scores.user1_initialScore,
         user2_finalScore: scores.user2_initialScore
-      }, function didUpdate(err) {
 
-        if (duel.user1_finalScore > duel.user2_finalScore) {
-          if (user.id === duel.user1.id) {
-            resolve({status: 'Won!', finalScores: scores});
-          }
-        } else if (user.id === duel.user2.id) {
-          resolve({status: 'Won!', finalScores: scores});
-        }
-        resolve({status: 'Lost', finalScores: scores});
+      }, function didUpdate(err, updatedDuel) {
+        // The only way to populate an updated duel is create a new query for it.
+        Duel.findOne({id: duel.id})
+          .populate(['user1', 'user2'])
+          .exec((err, populatedDuel) => {
+
+            return resolve(ScoresService.checkWinner(populatedDuel, user, true));
+          });
       });
     });
   });
 }
 
-function getEndDate(duel) {
-  const endDate = duel.startDate.getDate();
-  const endMonth = duel.startDate.getMonth() + 1;
-  const endYear = duel.startDate.getFullYear();
 
-  return new Date(endYear, endMonth, endDate);
-}
+function createNewDuel(oldDuel) {
 
-function createNewDuel(oldDuel, initialScores) {
   Duel.create({
     user1: oldDuel.user1.id,
     user2: oldDuel.user2.id,
-    user1_initialScore: initialScores.user1_initialScore,
-    user2_initialScore: initialScores.user2_initialScore
+    user1_initialScore: oldDuel.user1_finalScore,
+    user2_initialScore: oldDuel.user2_finalScore
+
   }).exec((err, duel) => {
     if (err) {
       console.log(err);
@@ -49,6 +53,5 @@ function createNewDuel(oldDuel, initialScores) {
 
 module.exports = {
   checkStatus,
-  getEndDate,
   createNewDuel
 };

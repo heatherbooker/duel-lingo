@@ -13,7 +13,21 @@ module.exports = {
 
     startDate: {
       type: 'date',
-      defaultsTo: new Date()
+      defaultsTo: function() {
+        return new Date();
+      }
+    },
+
+    endDate: {
+      type: 'date',
+      defaultsTo: function() {
+        const startDate = new Date();
+        const endDate = startDate.getDate() + 1;
+        const endMonth = startDate.getMonth();
+        const endYear = startDate.getFullYear();
+
+        return new Date(endYear, endMonth, endDate);
+        }
     },
 
     user1_initialScore: {
