@@ -12,10 +12,34 @@ module.exports = {
   },
 
   email: function(req, res, next) {
+
     const params = req.params.all();
-    res.view({
-      user1: params.user1,
-      user2: params.user2
+
+    req.session.userInfo = {};
+
+    const userPromises = [params.user1, params.user2].map((username, i) => {
+
+      return DuolingoService.getUserInfo(username)
+        .then(userInfo => {
+          req.session.userInfo[`user${i}`] = userInfo;
+
+          return userInfo;
+        })
+        .catch(err => {
+          res.redirect('/duel/new');
+        });
+    });
+
+    Promise.all(userPromises).then(userInfo => {
+
+      res.json(userInfo[0]);
+
+      res.view({
+        user1: params.user1,
+        user2: params.user2,
+        user1email: userInfo[0].email,
+        user2email: userInfo[1].email
+      });
     });
   },
 
@@ -40,17 +64,17 @@ module.exports = {
           }
           resolve(user);
         });
-      })
+      });
     });
 
-    const scores = ScoresService.getCurrentScores(params);
+    const scores = ScoresService.getCurrentScores(req.session.userInfo);
       
-    Promise.all([users[0], users[1], scores]).then(data => {
+    Promise.all([users]).then(users => {
 
-      const duelData = data[2];
+      const duelData = scores;
 
-      duelData.user1 = data[0].id;
-      duelData.user2 = data[1].id;
+      duelData.user1 = users[0].id;
+      duelData.user2 = users[1].id;
 
       Duel.create(duelData, (err, duel) => {
         if (err) {
