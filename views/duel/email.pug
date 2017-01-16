@@ -1,0 +1,27 @@
+extends ../layout
+
+block body
+  .content
+      h1 Duel-Lingo
+      .outputArea
+        .leaderboard
+          h2 Email Reminder
+          h4 Input your email for a reminder when your duel is ending.
+          form(action="/duel/create" method="POST")
+            table.table
+              tr
+                th User
+                th Email
+              tr
+                td= user1
+                td
+                  input(type="text" name="user1email").duel-email-input
+              tr
+                td= user2
+                td
+                  input(type="text" name="user2email").duel-email-input
+            button.duel-button Duel!
+            button.duel-button Skip
+            input(type="hidden" name="user1" value= user1)
+            input(type="hidden" name="user2" value= user2)
+            input(type="hidden" name="_csrf" value= _csrf)
