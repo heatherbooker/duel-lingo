@@ -24,7 +24,7 @@ form {
   text-align: center;
 }
 
-input[type='text'] {
+input[type='text'].duo-mock-input {
   border: 1px solid;
   border-radius: 8px;
   height: 130px;
@@ -36,6 +36,10 @@ input[type='text'] {
   box-shadow: 3px 3px 3px #B9B9B9;
   border-color: #B9B9B9;
   line-height: 100px;
+}
+
+input[type='text'].duel-email-input {
+  border: none;
 }
 
 .duel-button, .duel-button_disabled {

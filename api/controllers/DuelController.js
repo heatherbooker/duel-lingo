@@ -11,28 +11,41 @@ module.exports = {
     res.view();
   },
 
+  email: function(req, res, next) {
+    const params = req.params.all();
+    res.view({
+      user1: params.user1,
+      user2: params.user2
+    });
+  },
+
   create: function(req, res, next) {
 
-    const user1 = new Promise((resolve, reject) => {
-      User.findOrCreate({ username: req.params.all().user1 }, (err, user) => {
-        if (err) {
-          console.log(err);
-        }
-        resolve(user);
-      });
-    });
-    const user2 = new Promise((resolve, reject) => {
-      User.findOrCreate({ username: req.params.all().user2 }, (err, user) => {
-        if (err) {
-          console.log(err);
-        }
-        resolve(user);
-      });
+    const params = req.params.all();
+
+    const user1Info = {
+      username: params.user1,
+      email: params.user1email
+    };
+    const user2Info = {
+      username: params.user2,
+      email: params.user2email
+    };
+
+    const users = [user1Info, user2Info].map(userInfo => {
+      return new Promise((resolve, reject) => {
+        User.findOrCreate(userInfo, (err, user) => {
+          if (err) {
+            console.log(err);
+          }
+          resolve(user);
+        });
+      })
     });
 
-    const scores = ScoresService.getCurrentScores(req.params.all());
+    const scores = ScoresService.getCurrentScores(params);
       
-    Promise.all([user1, user2, scores]).then(data => {
+    Promise.all([users[0], users[1], scores]).then(data => {
 
       const duelData = data[2];
 
