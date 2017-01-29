@@ -21,6 +21,7 @@
     "include-all": "^1.0.0",
     "node-fetch": "1.6.3",
     "nodemailer": "2.7.0",
+    "nodemailer-mailgun-transport": "1.2.4",
     "nodemon": "1.11.0",
     "pug": "2.0.0-beta6",
     "rc": "1.0.1",

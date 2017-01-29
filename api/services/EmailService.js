@@ -1,32 +1,31 @@
 const nodemailer = require('nodemailer');
+const mailgun = require('nodemailer-mailgun-transport');
 
+
+function sendEmail(recepient, opponent, duelId) {
+
+  const transporter = nodemailer.createTransport(mailgun({
+    auth: {
+      api_key: 'key-780f9e3cfd98d74673d88f8638a38889',
+      domain: 'hyperdrive.pw'
+    }
+  }));
+
+  const mailOptions = {
+    from: '"Duel-Lingo" heather@hyperdrive.pw',
+    to: recepient,
+    subject: 'Your Duel is ending soon!',
+    html: 'Hi there!<br><br>Your duel with ' + opponent + ' is ending soon - make sure you won\'t owe them $5 by earning more points than them on Duolingo! <br><br><a href="https://duel-lingo.herokuapp.com/duel/show/' + duelId + '">View duel</a>',
+  };
+
+  transporter.sendMail(mailOptions, function(err, info){
+    if(err){
+      return console.log(err);
+    }
+    console.log('Message sent: ' + JSON.stringify(info));
+  });
+}
 
 module.exports = {
-  sendEmail: function sendEmail() {
-
-    // create reusable transporter object using the default SMTP transport
-    var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
-
-    // setup e-mail data with unicode symbols
-    var mailOptions = {
-        from: '"Fred Foo ?" <foo@blurdybloop.com>', // sender address
-        to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
-        subject: 'Hello ✔', // Subject line
-        text: 'Hello world ?', // plaintext body
-        html: '<b>Hello world ?</b>' // html body
-    };
-
-    // send mail with defined transport object
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            return console.log(error);
-        }
-        console.log('Message sent: ' + info.response);
-    });
-  },
-
-  getEmailAddress: function() {
-    DuolingoService.getUserData(null, 1, true);
-  }
-  
+    sendEmail  
 };
