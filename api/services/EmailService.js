@@ -6,7 +6,7 @@ function sendEmail(recepient, opponent, duelId) {
 
   const transporter = nodemailer.createTransport(mailgun({
     auth: {
-      api_key: 'key-780f9e3cfd98d74673d88f8638a38889',
+      api_key: sails.config.mail_api_key,
       domain: 'hyperdrive.pw'
     }
   }));
