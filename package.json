@@ -20,6 +20,7 @@
     "grunt-sync": "0.5.2",
     "include-all": "^1.0.0",
     "node-fetch": "1.6.3",
+    "node-schedule": "1.2.0",
     "nodemailer": "2.7.0",
     "nodemailer-mailgun-transport": "1.2.4",
     "nodemon": "1.11.0",
