@@ -60,9 +60,9 @@ module.exports.connections = {
     adapter: 'sails-mongo',
     host: 'ds111529.mlab.com',
     port: 11529,
-    user: 'duelmaster', //optional
-    password: 'RG#0enA$z*37', //optional
-    database: 'duelingo' //optional
+    user: 'duelmaster',
+    password: process.env.db_key,
+    database: 'duelingo'
   },
 
   /***************************************************************************
