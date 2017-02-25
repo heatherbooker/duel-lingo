@@ -25,11 +25,11 @@ module.exports = {
 
     const user1Info = {
       username: params.user1,
-      email: params.user1email
+      email: params.user1email || null
     };
     const user2Info = {
       username: params.user2,
-      email: params.user2email
+      email: params.user2email || null
     };
 
     const users = [user1Info, user2Info].map(userInfo => {
@@ -58,7 +58,20 @@ module.exports = {
           return res.redirect('/duel/new');
         }
 
-        res.redirect(`/duel/show/${duel.id}`);
+        const notifData = {
+          duel: duel.id,
+          user1: duelData.user1,
+          user2: duelData.user2
+        };
+
+        Notification.create(notifData, (err, _) => {
+          if (err) {
+            console.log(err);
+            return res.redirect('/duel/new');
+          }
+
+          res.redirect(`/duel/show/${duel.id}`);
+        });
       });
     });
   },
