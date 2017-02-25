@@ -22,8 +22,8 @@ module.exports = {
       type: 'date',
       defaultsTo: function() {
         const startDate = new Date();
-        const endDate = startDate.getDate() + 1;
-        const endMonth = startDate.getMonth();
+        const endDate = startDate.getDate();
+        const endMonth = startDate.getMonth() + 1;
         const endYear = startDate.getFullYear();
 
         return new Date(endYear, endMonth, endDate);

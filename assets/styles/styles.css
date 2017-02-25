@@ -18,6 +18,10 @@ body {
   max-width: 360px;
 }
 
+.about-duel-lingo p {
+  font-size: 120%;
+}
+
 form {
   display: flex;
   justify-content: center;
