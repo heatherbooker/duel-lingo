@@ -11,3 +11,6 @@ block body
         p Use it to encourage yourself and a friend to practice and learn another language!
       .inputArea
         a(href="/duel/new").duel-button Let's DUEL! :)
+        form(action="/user/view" method="GET").duel-status-form
+          input(type="text" name="username").duel-home-status-input
+          button.duel-status-btn Check Status

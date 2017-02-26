@@ -29,6 +29,17 @@ body {
   font-size: 120%;
 }
 
+.duel-status-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.duel-home-status-input {
+  width: 140px;
+  margin: auto;
+  margin-top: 8px;
+}
+
 form {
   display: flex;
   justify-content: center;
@@ -58,7 +69,7 @@ input[type='text'].duel-email-input {
   border: none;
 }
 
-.duel-button, .duel-button_disabled {
+.duel-button, .duel-button_disabled, .duel-status-btn {
   background-color: #20A6e7;
   border-radius: 33px;
   color: white;
@@ -73,12 +84,22 @@ input[type='text'].duel-email-input {
   border: none;
 }
 
+.duel-status-btn {
+  height: 26px;
+  line-height: 26px;
+  width: 115px;
+  margin: auto;
+  margin-top: 8px;
+  padding: 0px;
+  font-size: inherit;
+}
+
 button.duel-button {
   line-height: inherit;
   height: 40px;
 }
 
-.duel-button:hover {
+.duel-button:hover, .duel-status-btn:hover {
   background-color: #3EBBF7;
   cursor: pointer;
 }

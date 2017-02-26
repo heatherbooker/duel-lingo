@@ -7,6 +7,12 @@
 
 module.exports = {
 
+  view: function(req, res, next) {
+    const username = req.params.all().username;
+
+    res.redirect(`/user/duels/${username}`);
+  },
+
   duels: function(req, res, next) {
 
     User.findOne({ 'username': req.params.id }, function userFound(err, user) {
