@@ -7,12 +7,10 @@ block body
           form(action="/duel/email" method="POST")
               .usernameInput
                   label Username 1
-                  input(type="text" name="user1" value="heatherbooker").duo-mock-input
+                  input(type="text" name="user1").duo-mock-input
               .usernameInput
                   label Username 2
-                  input(type="text" name="user2" value="dylanharness").duo-mock-input
+                  input(type="text" name="user2").duo-mock-input
               button.duel-button Duel!
               input(type="hidden" name="_csrf" value= _csrf)
 
-
-              // dont forget to remove default values!
