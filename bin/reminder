@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // Todo eventually: also check if duel needs to restart.
 
 var EmailService = require('./api/services/EmailService.js');
