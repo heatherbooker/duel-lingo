@@ -5,8 +5,6 @@ const mongodb = require('mongodb');
 
 const uri = `mongodb://duelmaster:${process.env.db_key}@ds111529.mlab.com:11529/duelingo`;
 
-EmailService.sendEmail('heatherbean', 'thisisatestfromheroku-worker.js', 'heather.j.booker@gmail.com', '589771b3a7a9176c1f71bb2f');
-
 mongodb.MongoClient.connect(uri, function(err, db) {
  
   if (err) {
